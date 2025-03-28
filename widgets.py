@@ -2,6 +2,7 @@ import customtkinter as ctk
 
 
 class NavigationMenu(ctk.CTkFrame):
+    """Main Navigation Menu Container for storing Menu Buttons"""
     def __init__(self, parent, menu_items: list, switch_callback):
         super().__init__(parent, width=200, corner_radius=0)
         self.switch_callback = switch_callback
@@ -13,6 +14,12 @@ class NavigationMenu(ctk.CTkFrame):
 
     def create_menu(self):
         """Create and store buttons"""
+        frame = ctk.CTkFrame(self, height=50, fg_color='transparent', corner_radius=0)
+        frame.pack_propagate(False)
+        frame.pack()
+
+        ctk.CTkLabel(frame, text='Menu', font=('Arial', 20)).pack(pady=10, padx=10)
+
         for item in self.menu_items:
             button = MenuButton(self, item, self.on_button_click)
             button.pack(fill="x", padx=5, pady=5)
@@ -34,6 +41,7 @@ class NavigationMenu(ctk.CTkFrame):
 
 
 class MenuButton(ctk.CTkButton):
+    """Main Menu Button for selecting tabs"""
     def __init__(self, parent, text, click_callback):
         super().__init__(parent, text=text, fg_color="transparent", command=self.on_click)
         self.click_callback = click_callback
@@ -50,6 +58,7 @@ class MenuButton(ctk.CTkButton):
 
 
 class ContentFrame(ctk.CTkFrame):
+    """Temporary implementation for menu tabs not yet implemented"""
     def __init__(self, parent, text: str):
         super().__init__(parent, corner_radius=0)
         self.text = text + ' Content'
@@ -65,28 +74,68 @@ class DashboardFrame(ctk.CTkFrame):
         super().__init__(parent, fg_color='transparent')
         self.grid(row=0, column=1, sticky="nsew")
 
-        # Create and place menu and widget container
-        self.menu = DashboardMenu(self)
-        self.menu.grid(row=0, column=0, sticky="new")
+        # Configure layout
+        self.rowconfigure(1, weight=1)
+        self.columnconfigure(0, weight=1)
 
+        # Initialize Widget Container
         self.widget_container = WidgetContainer(self)
         self.widget_container.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
 
-        # Allow widget_container to expand
-        self.rowconfigure(1, weight=1)
-        self.columnconfigure(0, weight=1)
+        # Initialize Dashboard Menu
+        self.menu = DashboardMenu(self, self.widget_container)
+        self.menu.grid(row=0, column=0, sticky="new")
 
 
 class DashboardMenu(ctk.CTkFrame):
     """Top menu bar inside the dashboard (for future buttons, title, etc.)."""
-    def __init__(self, parent):
+    def __init__(self, parent, widget_container):
         super().__init__(parent, height=50, corner_radius=0)
         self.pack_propagate(False)
-        ctk.CTkLabel(self, text="Dashboard", font=("Arial", 16)).pack(pady=10)
+        self.widget_container = widget_container
+
+        ctk.CTkLabel(self, text="Dashboard", font=("Arial", 20)).pack(side='left', pady=10, padx=10)
+
+        # Remove Widget Button
+        self.remove_button = ctk.CTkButton(self, text="Remove Widget", command=self.remove_widget)
+        self.remove_button.pack(side="right", padx=10)
+
+        # Add Widget Button
+        self.add_button = ctk.CTkButton(self, text="Add Widget", command=self.add_widget)
+        self.add_button.pack(side="right", padx=10)
+
+
+
+    def add_widget(self):
+        """Calls the widget container's method to add a new widget."""
+        self.widget_container.add_widget()
+
+    def remove_widget(self):
+        """Calls the widget container's method to remove the last added widget."""
+        self.widget_container.remove_widget()
 
 
 class WidgetContainer(ctk.CTkFrame):
     """Area where widgets will be placed dynamically."""
     def __init__(self, parent):
-        super().__init__(parent)
+        super().__init__(parent, fg_color='transparent')
         self.pack_propagate(False)
+        self.widgets = []
+
+    def add_widget(self):
+        """Adds a simple widget (e.g., a label) to the container."""
+        new_widget = ctk.CTkLabel(self, text=f"Widget {len(self.widgets) + 1}", font=("Arial", 14))
+        new_widget.pack(pady=5)
+        self.widgets.append(new_widget)  # Store reference
+
+    def remove_widget(self):
+        """Removes the last added widget from the container."""
+        if self.widgets:
+            widget_to_remove = self.widgets.pop()  # Get the last widget
+            widget_to_remove.destroy()  # Destroy the widget
+
+
+class DataImportFrame(ctk.CTkFrame):
+    def __init__(self, parent):
+        super().__init__(parent, corner_radius=0, fg_color='transparent')
+        self.grid(row=0, column=1, sticky='nsew')

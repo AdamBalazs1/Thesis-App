@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from widgets import ContentFrame, NavigationMenu, DashboardFrame
+from widgets import ContentFrame, NavigationMenu, DashboardFrame, DataImportFrame
 
 
 class App(ctk.CTk):
@@ -37,6 +37,8 @@ class App(ctk.CTk):
         for item in self.menu_items:
             if item == "Dashboard":
                 self.content_frames[item] = DashboardFrame(self)
+            elif item == "Data Import":
+                self.content_frames[item] = DataImportFrame(self)
             else:
                 self.content_frames[item] = ContentFrame(self, item)
                 self.content_frames[item].grid(row=0, column=1, sticky="new")
