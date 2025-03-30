@@ -1,4 +1,15 @@
+import os
+import sqlite3
+from tkinter import filedialog, messagebox
+
 import customtkinter as ctk
+import tksheet
+from CTkListbox import *
+
+from styles import DarkButton
+
+
+# Frames
 
 
 class NavigationMenu(ctk.CTkFrame):
@@ -38,23 +49,6 @@ class NavigationMenu(ctk.CTkFrame):
         self.selected_button.highlight(True)  # Highlight new button
 
         self.switch_callback(clicked_button.cget("text"))  # Update content frame
-
-
-class MenuButton(ctk.CTkButton):
-    """Main Menu Button for selecting tabs"""
-    def __init__(self, parent, text, click_callback):
-        super().__init__(parent, text=text, fg_color="transparent", command=self.on_click)
-        self.click_callback = click_callback
-        self.is_selected = False
-
-    def on_click(self):
-        """Handles button click and notifies the menu"""
-        self.click_callback(self)
-
-    def highlight(self, selected=True):
-        """Change button color based on selection state"""
-        self.is_selected = selected
-        self.configure(fg_color="gray" if selected else "transparent")
 
 
 class ContentFrame(ctk.CTkFrame):
@@ -139,3 +133,97 @@ class DataImportFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, corner_radius=0, fg_color='transparent')
         self.grid(row=0, column=1, sticky='nsew')
+
+
+class SideMenuFrame(ctk.CTkFrame):
+    def __init__(self, master, add_button, remove_button, on_select_callback, add_callback, remove_callback, **kwargs):
+        super().__init__(master, **kwargs)
+        self.grid_propagate(False)
+
+        # Configure grid
+        self.rowconfigure(0, weight=0)
+        self.rowconfigure(1, weight=0)
+        self.rowconfigure(2, weight=1)
+        self.columnconfigure(0, weight=1)
+
+        # Callbacks
+        # self.button_callback = button_callback
+        self.on_select_callback = on_select_callback
+
+        # Configure widgets
+        self.menu_label = ctk.CTkLabel(self, text="Stored Files:", font=('Arial', 14, "bold"), anchor='w')
+        self.menu_label.grid(row=0, column=0, padx=10, pady=10, sticky='nsew')
+
+        self.button_frame = ctk.CTkFrame(self, fg_color='transparent')
+        self.button_frame.grid(column=0, row=1, padx=10, sticky="w")
+
+        self.add_button = add_button(self.button_frame, command=add_callback, **kwargs)    # TODO dont forget this!!
+        self.add_button.grid(column=0, row=0)
+
+        self.remove_button = remove_button(self.button_frame, command=remove_callback, **kwargs)  # TODO dont forget this!!
+        self.remove_button.grid(column=1, row=0, padx=5)
+
+        self.listbox = CTkListbox(self, command=self.on_select)
+        self.listbox.grid(row=2, column=0, sticky='nsew', padx=10, pady=10)
+
+    def on_select(self, selected_value):
+        """ Callback to refresh the dropdown menu """
+        self.on_select_callback(selected_value)
+
+
+# Buttons
+
+
+class MenuButton(ctk.CTkButton):
+    """Main Menu Button for selecting tabs"""
+    def __init__(self, parent, text, click_callback):
+        super().__init__(parent, text=text, fg_color="transparent", command=self.on_click)
+        self.click_callback = click_callback
+        self.is_selected = False
+
+    def on_click(self):
+        """Handles button click and notifies the menu"""
+        self.click_callback(self)
+
+    def highlight(self, selected=True):
+        """Change button color based on selection state"""
+        self.is_selected = selected
+        self.configure(fg_color="gray" if selected else "transparent")
+
+
+class FileDialogButton(DarkButton):
+    def __init__(self, parent, callback, **kwargs):
+        super().__init__(parent, command=self.select_file, text="+", width=30, height=30, **kwargs)
+        self.callback = callback
+        self.file_path = ''
+
+    def select_file(self):      # TODO Change this so you can pass filetypes!!
+        """Open file dialog with filtering for .sql and .db files"""
+        self.file_path = filedialog.askopenfilename(
+            title="Select a Database File",
+            filetypes=[("Database Files", "*.sql;*.db")]
+        )
+
+        # Validate selection
+        if self.file_path:
+            self.callback(self.file_path)
+        else:
+            messagebox.showwarning("Warning", "No file selected! Please select a valid database file.")
+
+
+class DarkAddButton(DarkButton):
+    def __init__(self, master, **kwargs):
+        super().__init__(master,
+                         width=30,
+                         height=30,
+                         text='+',
+                         **kwargs)
+
+
+class DarkRemoveButton(DarkButton):
+    def __init__(self, master, **kwargs):
+        super().__init__(master,
+                         width=30,
+                         height=30,
+                         text='-',
+                         **kwargs)
