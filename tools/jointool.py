@@ -65,7 +65,6 @@ class JoinTool:
                 messagebox.showerror(title="Error", message="Invalid join type. Use INNER, LEFT, RIGHT, or FULL.")
                 return
 
-            # FIXME SQLite doesn't support RIGHT or FULL JOIN natively...
             if self.join_type in ["RIGHT", "FULL"]:
                 messagebox.showerror(title="Not Supported", message=f"{self.join_type} JOIN is not supported in SQLite.")
                 return
