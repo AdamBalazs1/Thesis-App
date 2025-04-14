@@ -1,6 +1,13 @@
 import customtkinter as ctk
-from widgets import ContentFrame, NavigationMenu, DashboardFrame, DataImportFrame
-import Data_Manager
+
+from tabs.dashboardhub import DashboardBaseFrame
+from tabs.dataimporthub import DataImportBaseFrame
+from tabs.analysishub import AnalysisHubBaseFrame
+from tabs.freighthub import FreightHubBaseFrame
+
+from widgets import NavigationMenu
+
+from appmanager import AppManager
 
 
 class App(ctk.CTk):
@@ -13,6 +20,7 @@ class App(ctk.CTk):
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
+        self.app_manager = AppManager()
         self.menu_items = ["Dashboard", "Data Import", "Automation", "Freight"]
 
         self.content_frames = {}
@@ -20,6 +28,7 @@ class App(ctk.CTk):
         self.navigation_menu = NavigationMenu(self, self.menu_items, self.show_frame)
 
         self.create_app()
+
 
 
     def show_frame(self, name):
@@ -37,13 +46,16 @@ class App(ctk.CTk):
         """Creates the layout for the app"""
         for item in self.menu_items:
             if item == "Dashboard":
-                self.content_frames[item] = DashboardFrame(self)
+                self.content_frames[item] = DashboardBaseFrame(self, self.app_manager)
             elif item == "Data Import":
-                self.content_frames[item] = Data_Manager.DataManagerFrame(self)
+                self.content_frames[item] = DataImportBaseFrame(self)
                 self.content_frames[item].grid(row=0, column=1, sticky="nsew")
-            else:
-                self.content_frames[item] = ContentFrame(self, item)
-                self.content_frames[item].grid(row=0, column=1, sticky="new")
+            elif item == "Automation":
+                self.content_frames[item] = AnalysisHubBaseFrame(self)
+                self.content_frames[item].grid(row=0, column=1, sticky='nsew')
+            elif item == "Freight":
+                self.content_frames[item] = FreightHubBaseFrame(self)
+                self.content_frames[item].grid(row=0, column=1, sticky="nsew")
 
         self.navigation_menu.grid(row=0, column=0, sticky='nsew')
 
