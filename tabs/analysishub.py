@@ -11,7 +11,6 @@ from tools.appmanager import AppManager
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "databases" / "imported_data.db"
 
-# FIXME fixate size of option frames
 
 class DataImportManager:
     def __init__(self):
@@ -125,7 +124,6 @@ class AnalysisHubBaseFrame(ctk.CTkFrame):
         self.refresh_listbox()
 
     def listbox_on_select(self, event):
-        print('Option selected: {}'.format(event))  # ToDo implement this
         if self.content_frame:
             self.content_frame.destroy()
         self.content_frame = None   # This is not needed??..
@@ -140,8 +138,6 @@ class AnalysisHubBaseFrame(ctk.CTkFrame):
                 columns['col_3'] = "Select Sheet"
 
 
-        print(g_type)
-        # ToDo Rethink this part..
         if g_type == "Pie":
             self.content_frame = GraphFrame(self, "event")
 

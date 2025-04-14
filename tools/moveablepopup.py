@@ -263,12 +263,12 @@ class WidgetSize(WorkArea):
 
     @staticmethod
     def validate_input(value):
-        """ Only allow numbers between 1 and 8 """
+        """ Only allow numbers between 1 and 3 """
         if value == "":
             return True
         if value.isdigit():
             num = int(value)
-            return 1 <= num <= 3    # ToDo
+            return 1 <= num <= 3
         return False
 
     def ok_press(self):
@@ -647,7 +647,6 @@ class SaveJoin(WorkArea):
         selected = [col for col, var in self.checkbox_vars.items() if var.get()]
 
         if self.name_entry.get() and selected:
-            print(selected) # ToDo Delete this
             self.callback(self.name_entry.get(), selected)
             self.pop_up_instance.destroy()
 

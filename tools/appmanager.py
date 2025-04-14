@@ -9,7 +9,7 @@ DEFAULT_SETTINGS_PATH = BASE_DIR / "settings"
 class AppManager:
     def __init__(self, user_name='default_user'):
         self.user_name = user_name
-        self.default_settings_path = DEFAULT_SETTINGS_PATH / "default_settings.json"   # ToDo fix this for future! - login implementation
+        self.default_settings_path = DEFAULT_SETTINGS_PATH / "default_settings.json"
         self.user_settings_path = DEFAULT_SETTINGS_PATH / f"{self.user_name}_settings.json"
 
         self.settings = self.load_settings()

@@ -50,7 +50,6 @@ class NavigationMenu(ctk.CTkFrame):
 
 class HeaderFrame(ctk.CTkFrame):
     def __init__(self, master, title, font=get_font(), **kwargs):
-        # ToDO create button_frame -> Add buttons to it
         super().__init__(master,
                          height=60,
                          **kwargs)
@@ -89,7 +88,6 @@ class HeaderFrame(ctk.CTkFrame):
 
 class SideFrame(ctk.CTkFrame):
     def __init__(self, master, title, width=200, **kwargs):
-        # ToDo Implement reset settings filter
         super().__init__(master,
                          width=width,
                          **kwargs)
@@ -190,7 +188,7 @@ class FileDialogButton(DarkButton):
         self.callback = callback
         self.file_path = ''
 
-    def select_file(self):      # TODO Change this so you can pass filetypes!!
+    def select_file(self):
         """Open file dialog with filtering for .sql and .db files"""
         self.file_path = filedialog.askopenfilename(
             title="Select a Database File",

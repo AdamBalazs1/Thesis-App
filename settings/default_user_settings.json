@@ -1,0 +1,161 @@
+{
+    "grid_dimensions": {
+        "rows": 6,
+        "columns": 6
+    },
+    "theme": "dark",
+    "language": "en",
+    "occupied_cells": {
+        "(0, 0)": true,
+        "(0, 1)": true,
+        "(0, 2)": true,
+        "(1, 0)": true,
+        "(1, 1)": true,
+        "(1, 2)": true,
+        "(2, 0)": true,
+        "(2, 1)": true,
+        "(2, 2)": true,
+        "(3, 3)": true,
+        "(3, 4)": true,
+        "(3, 5)": true,
+        "(4, 3)": true,
+        "(4, 4)": true,
+        "(4, 5)": true,
+        "(5, 3)": true,
+        "(5, 4)": true,
+        "(5, 5)": true,
+        "(4, 0)": true,
+        "(4, 1)": true,
+        "(5, 0)": true,
+        "(5, 1)": true,
+        "(0, 3)": true,
+        "(0, 4)": true,
+        "(1, 3)": true,
+        "(1, 4)": true
+    },
+    "widgets": {
+        "widget_1": {
+            "row": 0,
+            "column": 0,
+            "row_span": 3,
+            "column_span": 3,
+            "widget_type": "Backlog test"
+        },
+        "widget_2": {
+            "row": 3,
+            "column": 3,
+            "row_span": 3,
+            "column_span": 3,
+            "widget_type": "TOP5 test"
+        },
+        "widget_4": {
+            "row": 4,
+            "column": 0,
+            "row_span": 2,
+            "column_span": 2,
+            "widget_type": "Line test"
+        },
+        "widget_3": {
+            "row": 0,
+            "column": 3,
+            "row_span": 2,
+            "column_span": 2,
+            "widget_type": "BAR test"
+        }
+    },
+    "tables": {
+        "new_songs": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/music.db",
+            "table": "songs"
+        },
+        "new_albums": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/music.db",
+            "table": "albums"
+        },
+        "new_artists": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/music.db",
+            "table": "artists"
+        },
+        "csv_test": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/sample_data.csv",
+            "table": "imported_table"
+        },
+        "standard_2col": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/dummy_data.db",
+            "table": "standard_graph_2col"
+        },
+        "standard_3col": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/dummy_data.db",
+            "table": "standard_graph_3col"
+        },
+        "top_5": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/dummy_data.db",
+            "table": "top5_inventory_cost"
+        },
+        "inventory_turnover": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/dummy_data.db",
+            "table": "inventory_turnover"
+        },
+        "backlog": {
+            "path": "C:/Users/Bal\u00e1zs/Desktop/dummy_data.db",
+            "table": "production_backlog"
+        }
+    },
+    "join_instructions": {},
+    "graph_files": {
+        "pie chart test": {
+            "type": "Pie",
+            "table": "standard_2col",
+            "columns": {
+                "col_1": "Category",
+                "col_2": "Value",
+                "col_3": ""
+            }
+        },
+        "Backlog test": {
+            "type": "backlog",
+            "table": "backlog",
+            "columns": {
+                "production line": "production_line",
+                "month": "month",
+                "backlog": "backlog_qty"
+            }
+        },
+        "ITR test": {
+            "type": "inventory_turnover_ratio",
+            "table": "inventory_turnover",
+            "columns": {
+                "month": "month",
+                "cogs": "cost_of_goods_sold",
+                "aic": "avg_inventory_cost"
+            }
+        },
+        "TOP5 test": {
+            "type": "top5_inventory_cost",
+            "table": "top_5",
+            "columns": {
+                "mat_id": "mat_id",
+                "qty": "qty",
+                "cost": "cost"
+            }
+        },
+        "BAR test": {
+            "type": "Bar",
+            "table": "standard_3col",
+            "columns": {
+                "col_1": "month",
+                "col_2": "sales",
+                "col_3": "cost"
+            }
+        },
+        "Line test": {
+            "type": "Line",
+            "table": "standard_2col",
+            "columns": {
+                "col_1": "Category",
+                "col_2": "Value",
+                "col_3": ""
+            }
+        }
+    }
+}

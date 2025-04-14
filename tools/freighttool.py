@@ -1,5 +1,5 @@
 
-def create_freight_record(conn, freight_data):  # Todo Check again if this works
+def create_freight_record(conn, freight_data):
     cursor = conn.cursor()
 
     cursor.execute("""

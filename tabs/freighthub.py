@@ -8,7 +8,6 @@ from tools.freighttool import filter_freights, delete_freight_record, update_fre
 from tools.moveablepopup import MovablePopUp, FreightCreate, FreightEdit
 from tools.widgets import HeaderFrame, SideFrame, DarkAddButton, DarkRemoveButton, DarkButton
 
-# ToDO view materials
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 FREIGHT_PATH = BASE_DIR / "databases" / "freight.db"
@@ -277,8 +276,6 @@ class SettingsFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master,
                          **kwargs)
-        # ToDO Implement SettingsFrame class
-        # ToDO Implement filters dict probably outside of class?
 
         self.filters = {}
 
